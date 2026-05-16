@@ -1,0 +1,218 @@
+@if (product(); as p) {
+<div class="detail container">
+
+  <!-- Breadcrumb -->
+  <nav class="detail__breadcrumb text-body-sm">
+    <a routerLink="/">Home</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <a routerLink="/products">{{ p.category }}</a>
+    <span class="material-symbols-outlined">chevron_right</span>
+    <span>{{ p.name }}</span>
+  </nav>
+
+  <!-- Main Grid -->
+  <div class="detail__grid">
+
+    <!-- Image Gallery -->
+    <div class="detail__gallery">
+      <!-- Thumbnail Strip -->
+      <div class="detail__thumbs">
+        @for (img of p.images ?? [p.imageUrl]; track $index) {
+          <button
+            class="detail__thumb"
+            [class.detail__thumb--active]="selectedImage() === $index"
+            (click)="selectImage($index)"
+          >
+            <img [src]="img" [alt]="p.name + ' view ' + ($index + 1)" />
+          </button>
+        }
+      </div>
+
+      <!-- Main Image -->
+      <div class="detail__main-image">
+        <img
+          [src]="(p.images ?? [p.imageUrl])[selectedImage()]"
+          [alt]="p.name"
+          class="detail__main-img"
+        />
+        <!-- Wishlist on image -->
+        <button
+          class="detail__image-wishlist"
+          [class.detail__image-wishlist--active]="isWishlisted()"
+          (click)="toggleWishlist()"
+          [attr.aria-label]="isWishlisted() ? 'Remove from wishlist' : 'Add to wishlist'"
+        >
+          <span class="material-symbols-outlined" [style.font-variation-settings]="isWishlisted() ? '\'FILL\' 1' : '\'FILL\' 0'">
+            favorite
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="detail__info">
+      @if (p.isNew) { <span class="chip chip-primary">New Arrival</span> }
+      @if (p.isSale) { <span class="chip" style="background:var(--color-error-container);color:var(--color-on-error-container)">Sale</span> }
+
+      <h1 class="detail__name text-display-md">{{ p.name }}</h1>
+
+      <!-- Rating -->
+      <div class="detail__rating">
+        <div class="detail__stars">
+          @for (star of stars; track star) {
+            <span class="material-symbols-outlined detail__star"
+              [class.detail__star--filled]="star <= Math.round(p.rating)"
+            >star</span>
+          }
+        </div>
+        <span class="text-body-sm">{{ p.rating }} ({{ p.reviewCount }} reviews)</span>
+      </div>
+
+      <!-- Price -->
+      <div class="detail__price-row">
+        <span class="detail__price">{{ p.price | currency:'USD':'symbol':'1.0-0' }}</span>
+        @if (p.originalPrice) {
+          <span class="detail__original-price">{{ p.originalPrice | currency:'USD':'symbol':'1.0-0' }}</span>
+        }
+      </div>
+
+      <!-- Color Selector -->
+      <div class="detail__section">
+        <p class="detail__section-label text-label-lg">
+          Colour — <em class="detail__selection">{{ selectedColor() }}</em>
+        </p>
+        <div class="detail__colors">
+          @for (color of p.colors; track color.name) {
+            <button
+              class="detail__color-btn"
+              [class.detail__color-btn--active]="selectedColor() === color.name"
+              [style.background-color]="color.hex"
+              [style.border]="color.name === 'Cream' ? '1px solid #ddd' : 'none'"
+              [title]="color.name"
+              (click)="selectColor(color.name)"
+            ></button>
+          }
+        </div>
+      </div>
+
+      <!-- Size Selector -->
+      <div class="detail__section">
+        <p class="detail__section-label text-label-lg">
+          Size — <em class="detail__selection">{{ selectedSize() }}</em>
+        </p>
+        <div class="detail__sizes">
+          @for (size of p.sizes; track size) {
+            <button
+              class="detail__size-btn"
+              [class.detail__size-btn--active]="selectedSize() === size"
+              (click)="selectSize(size)"
+            >{{ size }}</button>
+          }
+        </div>
+        <a href="#" class="detail__size-guide text-body-sm">Size Guide</a>
+      </div>
+
+      <!-- Quantity + Add to Cart -->
+      <div class="detail__add-row">
+        <div class="detail__quantity">
+          <button class="detail__qty-btn" (click)="adjustQty(-1)" [disabled]="quantity() <= 1">
+            <span class="material-symbols-outlined">remove</span>
+          </button>
+          <span class="detail__qty-value">{{ quantity() }}</span>
+          <button class="detail__qty-btn" (click)="adjustQty(1)">
+            <span class="material-symbols-outlined">add</span>
+          </button>
+        </div>
+
+        <button
+          class="btn btn-primary detail__add-btn"
+          (click)="addToCart()"
+          [class.detail__add-btn--added]="addedToCart()"
+        >
+          @if (addedToCart()) {
+            <span class="material-symbols-outlined">check</span> Added to Bag
+          } @else {
+            <span class="material-symbols-outlined">shopping_bag</span> Add to Bag
+          }
+        </button>
+      </div>
+
+      <!-- Perks -->
+      <div class="detail__perks">
+        <div class="detail__perk">
+          <span class="material-symbols-outlined">local_shipping</span>
+          <span class="text-body-sm">Free shipping on orders over $250</span>
+        </div>
+        <div class="detail__perk">
+          <span class="material-symbols-outlined">autorenew</span>
+          <span class="text-body-sm">Free returns within 30 days</span>
+        </div>
+        <div class="detail__perk">
+          <span class="material-symbols-outlined">verified</span>
+          <span class="text-body-sm">100% authentic, quality guaranteed</span>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="detail__tabs">
+        <div class="detail__tab-buttons">
+          @for (tab of ['description', 'care', 'shipping']; track tab) {
+            <button
+              class="detail__tab-btn"
+              [class.detail__tab-btn--active]="activeTab() === tab"
+              (click)="activeTab.set($any(tab))"
+            >{{ tab | titlecase }}</button>
+          }
+        </div>
+        <div class="detail__tab-content text-body-md">
+          @if (activeTab() === 'description') {
+            <p>{{ p.description }}</p>
+            <ul class="detail__features">
+              <li>100% Premium Natural Fibres</li>
+              <li>Sustainably sourced materials</li>
+              <li>Dry clean recommended</li>
+              <li>Imported</li>
+            </ul>
+          }
+          @if (activeTab() === 'care') {
+            <p>To preserve the beauty and longevity of your garment, we recommend the following care instructions:</p>
+            <ul class="detail__features">
+              <li>Dry clean only</li>
+              <li>Store hanging or folded flat in a cool, dry place</li>
+              <li>Avoid prolonged exposure to direct sunlight</li>
+              <li>Use a soft brush to remove any lint or debris</li>
+            </ul>
+          }
+          @if (activeTab() === 'shipping') {
+            <p>We offer complimentary standard shipping on all orders over $250. Express and overnight options are available at checkout.</p>
+            <ul class="detail__features">
+              <li>Standard shipping: 5–7 business days (Free over $250)</li>
+              <li>Express shipping: 2–3 business days ($25)</li>
+              <li>Overnight: Next business day ($45)</li>
+              <li>Free returns within 30 days of delivery</li>
+            </ul>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  @if (relatedProducts().length > 0) {
+    <section class="detail__related">
+      <h2 class="text-display-md detail__related-title">You May Also Like</h2>
+      <div class="detail__related-grid">
+        @for (rp of relatedProducts(); track rp.id) {
+          <app-product-card [product]="rp" />
+        }
+      </div>
+    </section>
+  }
+
+</div>
+} @else {
+  <div class="detail-not-found container">
+    <h2 class="text-headline-lg">Product not found</h2>
+    <a routerLink="/products" class="btn btn-primary">Back to Collection</a>
+  </div>
+}

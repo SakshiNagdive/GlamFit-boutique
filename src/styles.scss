@@ -1,0 +1,324 @@
+/* =============================================================
+   GlamFit BOUTIQUE — Global Styles
+   Design System: Premium Boutique (Rose Petal + Blush Mist)
+   ============================================================= */
+
+/* ── Design Tokens ─────────────────────────────────────────── */
+:root {
+  /* Brand Colors */
+  --color-primary:                  #8a486f;
+  --color-on-primary:               #ffffff;
+  --color-primary-container:        #f9a8d4;
+  --color-on-primary-container:     #78395f;
+  --color-inverse-primary:          #ffaeda;
+  --color-primary-fixed:            #ffd8ea;
+  --color-primary-fixed-dim:        #ffaeda;
+  --color-on-primary-fixed:         #3a0329;
+  --color-on-primary-fixed-variant: #6f3157;
+  --color-surface-tint:             #8a486f;
+
+  /* Secondary */
+  --color-secondary:                #645d5d;
+  --color-on-secondary:             #ffffff;
+  --color-secondary-container:      #ebe0e0;
+  --color-on-secondary-container:   #6a6363;
+  --color-secondary-fixed:          #ebe0e0;
+  --color-secondary-fixed-dim:      #cec4c4;
+  --color-on-secondary-fixed:       #1f1a1b;
+  --color-on-secondary-fixed-variant:#4c4546;
+
+  /* Tertiary */
+  --color-tertiary:                 #5e5f5d;
+  --color-on-tertiary:              #ffffff;
+  --color-tertiary-container:       #c0c0be;
+  --color-on-tertiary-container:    #4e4e4d;
+  --color-tertiary-fixed:           #e3e2e0;
+  --color-tertiary-fixed-dim:       #c7c6c4;
+  --color-on-tertiary-fixed:        #1a1c1a;
+  --color-on-tertiary-fixed-variant:#464745;
+
+  /* Surface */
+  --color-background:               #fcf8f9;
+  --color-on-background:            #1b1b1c;
+  --color-surface:                  #fcf8f9;
+  --color-surface-dim:              #dcd9da;
+  --color-surface-bright:           #fcf8f9;
+  --color-surface-variant:          #e5e2e3;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low:    #f6f3f4;
+  --color-surface-container:        #f0edee;
+  --color-surface-container-high:   #eae7e8;
+  --color-surface-container-highest:#e5e2e3;
+  --color-on-surface:               #1b1b1c;
+  --color-on-surface-variant:       #514349;
+  --color-inverse-surface:          #303031;
+  --color-inverse-on-surface:       #f3f0f1;
+
+  /* Utility */
+  --color-outline:                  #83737a;
+  --color-outline-variant:          #d5c1c9;
+  --color-error:                    #ba1a1a;
+  --color-on-error:                 #ffffff;
+  --color-error-container:          #ffdad6;
+  --color-on-error-container:       #93000a;
+
+  /* Typography */
+  --font-serif: 'Noto Serif', Georgia, serif;
+  --font-sans:  'Inter', system-ui, sans-serif;
+
+  /* Spacing (8px scale) */
+  --space-unit:        8px;
+  --space-sm:          8px;
+  --space-md:          16px;
+  --space-lg:          32px;
+  --space-section-gap: 80px;
+  --space-gutter:      24px;
+  --container-max:     1280px;
+
+  /* Border Radius */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgba(138, 72, 111, 0.06);
+  --shadow-nav:  0 4px 20px rgba(249, 168, 212, 0.04);
+}
+
+/* ── Reset & Base ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-on-background);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; }
+input, textarea, select { font-family: inherit; }
+
+/* ── Typography Utilities ─────────────────────────────────── */
+.text-display-lg {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 5vw, 48px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.text-display-md {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.text-headline-lg {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.text-headline-md {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.text-body-lg  { font-size: 18px; line-height: 1.6; }
+.text-body-md  { font-size: 16px; line-height: 1.6; }
+.text-body-sm  { font-size: 14px; line-height: 1.5; }
+
+.text-label-lg {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+.text-label-sm {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+/* ── Material Symbols ──────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}
+
+/* ── Layout Utilities ───────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-gutter);
+}
+
+@media (min-width: 768px) {
+  .container { padding-inline: 48px; }
+}
+
+/* ── Component Base Styles ─────────────────────────────────── */
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+
+  &:hover {
+    background-color: var(--color-on-primary-container);
+    box-shadow: 0 4px 16px rgba(138, 72, 111, 0.3);
+    transform: translateY(-1px);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+.btn-outlined {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+
+  &:hover {
+    background-color: var(--color-primary-container);
+    border-color: var(--color-primary);
+  }
+}
+
+.btn-tonal {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+
+  &:hover {
+    background-color: var(--color-primary-fixed-dim);
+    box-shadow: 0 2px 8px rgba(138, 72, 111, 0.15);
+  }
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-surface-container-lowest);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 32px rgba(138, 72, 111, 0.12);
+    transform: translateY(-4px);
+  }
+}
+
+/* Inputs */
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--color-surface-container-low);
+  border: 1.5px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  color: var(--color-on-surface);
+  transition: border-color 0.2s ease;
+  outline: none;
+
+  &::placeholder { color: var(--color-outline); }
+
+  &:focus {
+    border-color: var(--color-primary);
+    background-color: var(--color-surface-container-lowest);
+  }
+}
+
+/* Badges / Chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  background-color: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+}
+
+.chip-primary {
+  background-color: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+/* Dividers */
+.divider {
+  height: 1px;
+  background-color: var(--color-outline-variant);
+  border: none;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.fade-in-up { animation: fadeInUp 0.5s ease forwards; }
+.heart-pop  { animation: heartPop 0.3s ease; }
+
+/* ── Page transitions ───────────────────────────────────────── */
+router-outlet + * {
+  animation: fadeInUp 0.4s ease;
+}

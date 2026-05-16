@@ -1,0 +1,359 @@
+.checkout {
+  padding-top: 48px;
+  padding-bottom: 80px;
+
+  /* ── Steps ── */
+  &__steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 48px;
+  }
+
+  &__step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+
+    &--active .checkout__step-circle {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+
+    &--done .checkout__step-circle {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+  }
+
+  &__step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-outline-variant);
+    background: var(--color-surface-container-low);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-secondary);
+    transition: all 0.3s ease;
+
+    .material-symbols-outlined { font-size: 18px; }
+  }
+
+  &__step-label {
+    text-transform: uppercase;
+    color: var(--color-secondary);
+    white-space: nowrap;
+
+    .checkout__step--active & { color: var(--color-primary); font-weight: 600; }
+  }
+
+  &__step-line {
+    flex: 1;
+    height: 2px;
+    background: var(--color-outline-variant);
+    margin-bottom: 22px;
+    max-width: 80px;
+    transition: background-color 0.3s;
+
+    &--done { background: var(--color-primary); }
+  }
+
+  /* ── Body ── */
+  &__body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: start;
+
+    @media (min-width: 1024px) { grid-template-columns: 1fr 340px; }
+  }
+
+  /* ── Section ── */
+  &__section { display: flex; flex-direction: column; gap: 28px; }
+  &__section-title { font-family: var(--font-serif); color: var(--color-on-surface); }
+
+  /* ── Shipping Methods ── */
+  &__methods-title {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-on-surface);
+    margin-bottom: 12px;
+  }
+
+  &__shipping-methods { display: flex; flex-direction: column; gap: 10px; }
+
+  &__next { align-self: flex-start; }
+
+  /* ── Secure Notice ── */
+  &__secure-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-secondary);
+    padding: 14px 16px;
+    background: var(--color-surface-container-low);
+    border-radius: var(--radius-md);
+
+    .material-symbols-outlined { color: #2d8a4e; font-size: 18px; }
+  }
+
+  &__save-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--color-secondary);
+
+    input { accent-color: var(--color-primary); width: 16px; height: 16px; }
+  }
+
+  /* ── Nav Buttons ── */
+  &__nav-btns {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__place-btn { position: relative; min-width: 220px; }
+
+  &__spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+
+  /* ── Summary Sidebar ── */
+  &__summary {
+    background: var(--color-surface-container-lowest);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__summary-title { font-family: var(--font-serif); }
+
+  &__summary-items { display: flex; flex-direction: column; gap: 16px; }
+
+  &__summary-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__summary-img-wrap {
+    position: relative;
+    width: 56px;
+    height: 70px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__summary-qty {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 20px;
+    height: 20px;
+    background: var(--color-primary);
+    color: #fff;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__summary-info { flex: 1; min-width: 0; }
+  &__summary-name { font-weight: 500; }
+  &__summary-meta { color: var(--color-outline); }
+  &__summary-price { font-weight: 600; white-space: nowrap; }
+
+  &__totals { display: flex; flex-direction: column; gap: 10px; }
+
+  &__total-row {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-secondary);
+
+    &--bold {
+      color: var(--color-on-surface);
+      font-weight: 600;
+      font-size: 16px;
+    }
+  }
+}
+
+/* ── Shipping Method ─────────────────────────────────────────── */
+.shipping-method {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border: 1.5px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: border-color 0.2s;
+
+  &:has(input:checked) { border-color: var(--color-primary); background: rgba(249, 168, 212, 0.06); }
+
+  input[type="radio"] { accent-color: var(--color-primary); flex-shrink: 0; }
+
+  &__body { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  &__name { color: var(--color-on-surface); font-weight: 500; }
+  &__eta { color: var(--color-secondary); }
+  &__price { font-weight: 600; color: var(--color-on-surface); white-space: nowrap; }
+}
+
+/* ── Form Grid ───────────────────────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &--full { grid-column: 1 / -1; }
+}
+
+.form-label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-secondary);
+}
+
+.input-icon-wrap {
+  position: relative;
+
+  .input { padding-right: 40px; }
+
+  .input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: var(--color-outline);
+    pointer-events: none;
+  }
+}
+
+/* ── Review ─────────────────────────────────────────────────── */
+.review-block {
+  padding: 20px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  &__edit {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-primary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  &__detail { color: var(--color-secondary); }
+}
+
+.review-items { display: flex; flex-direction: column; gap: 12px; }
+
+.review-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  &__img {
+    width: 60px;
+    height: 76px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__info { flex: 1; }
+  &__name { font-weight: 500; }
+  &__meta { color: var(--color-secondary); }
+  &__price { font-weight: 600; white-space: nowrap; }
+}
+
+/* ── Success ─────────────────────────────────────────────────── */
+.checkout-success {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 48px;
+  padding-bottom: 80px;
+
+  &__card {
+    text-align: center;
+    max-width: 560px;
+    padding: 48px 32px;
+    background: var(--color-surface-container-lowest);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 8px 40px rgba(138, 72, 111, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__icon {
+    .material-symbols-outlined {
+      font-size: 72px;
+      color: #2d8a4e;
+      font-variation-settings: 'FILL' 1;
+    }
+  }
+
+  &__title { font-family: var(--font-serif); }
+  &__sub { color: var(--color-secondary); }
+  &__order-id { text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-primary); }
+
+  &__actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

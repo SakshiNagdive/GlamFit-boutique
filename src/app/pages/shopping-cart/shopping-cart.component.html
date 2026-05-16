@@ -1,0 +1,186 @@
+<div class="cart-page container">
+
+  <header class="cart-page__header">
+    <h1 class="text-display-md">Your Shopping Bag</h1>
+    <p class="text-body-md cart-page__count">{{ cart.itemCount() }} item{{ cart.itemCount() !== 1 ? 's' : '' }}</p>
+  </header>
+
+  @if (cart.items().length > 0) {
+    <div class="cart-page__body">
+
+      <!-- ── Cart Items ──────────────────────────── -->
+      <div class="cart-page__items">
+
+        <!-- Free shipping notice -->
+        @if (cart.subtotal() < 250) {
+          <div class="cart-page__shipping-notice">
+            <span class="material-symbols-outlined">local_shipping</span>
+            <span class="text-body-sm">
+              Add <strong>{{ 250 - cart.subtotal() | currency:'USD':'symbol':'1.0-0' }}</strong> more for free shipping
+            </span>
+            <div class="cart-page__shipping-bar">
+              <div
+                class="cart-page__shipping-progress"
+                [style.width.%]="(cart.subtotal() / 250) * 100"
+              ></div>
+            </div>
+          </div>
+        } @else {
+          <div class="cart-page__shipping-notice cart-page__shipping-notice--achieved">
+            <span class="material-symbols-outlined">check_circle</span>
+            <span class="text-body-sm">You've unlocked <strong>free shipping!</strong></span>
+          </div>
+        }
+
+        <!-- Items List -->
+        @for (item of cart.items(); track item.product.id + item.selectedSize + item.selectedColor) {
+          <div class="cart-item">
+            <a [routerLink]="['/products', item.product.id]" class="cart-item__image-wrap">
+              <img
+                [src]="item.product.imageUrl"
+                [alt]="item.product.name"
+                class="cart-item__image"
+              />
+            </a>
+
+            <div class="cart-item__info">
+              <div class="cart-item__header">
+                <div>
+                  <p class="cart-item__category text-label-sm">{{ item.product.category }}</p>
+                  <h3 class="cart-item__name">
+                    <a [routerLink]="['/products', item.product.id]">{{ item.product.name }}</a>
+                  </h3>
+                  <p class="cart-item__meta text-body-sm">
+                    {{ item.selectedColor }} · Size {{ item.selectedSize }}
+                  </p>
+                </div>
+                <button class="cart-item__remove" (click)="removeItem(item)" aria-label="Remove item">
+                  <span class="material-symbols-outlined">close</span>
+                </button>
+              </div>
+
+              <div class="cart-item__footer">
+                <div class="cart-item__quantity">
+                  <button
+                    class="cart-item__qty-btn"
+                    (click)="updateQuantity(item, -1)"
+                    [disabled]="item.quantity <= 1"
+                  >
+                    <span class="material-symbols-outlined">remove</span>
+                  </button>
+                  <span class="cart-item__qty-value">{{ item.quantity }}</span>
+                  <button class="cart-item__qty-btn" (click)="updateQuantity(item, 1)">
+                    <span class="material-symbols-outlined">add</span>
+                  </button>
+                </div>
+
+                <div class="cart-item__price-group">
+                  @if (item.product.originalPrice) {
+                    <span class="cart-item__original-price">
+                      {{ item.product.originalPrice * item.quantity | currency:'USD':'symbol':'1.0-0' }}
+                    </span>
+                  }
+                  <span class="cart-item__price">
+                    {{ item.product.price * item.quantity | currency:'USD':'symbol':'1.0-0' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Continue Shopping -->
+        <a routerLink="/products" class="cart-page__continue text-label-lg">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Continue Shopping
+        </a>
+      </div>
+
+      <!-- ── Order Summary ─────────────────────── -->
+      <aside class="cart-page__summary">
+        <h2 class="cart-page__summary-title text-headline-md">Order Summary</h2>
+
+        <div class="cart-page__summary-rows">
+          <div class="cart-page__summary-row">
+            <span class="text-body-md">Subtotal</span>
+            <span class="text-body-md">{{ cart.subtotal() | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+
+          @if (cart.discount() > 0) {
+            <div class="cart-page__summary-row cart-page__summary-row--discount">
+              <span class="text-body-sm">Sale Savings</span>
+              <span class="text-body-sm">-{{ cart.discount() | currency:'USD':'symbol':'1.0-0' }}</span>
+            </div>
+          }
+
+          @if (promoApplied) {
+            <div class="cart-page__summary-row cart-page__summary-row--discount">
+              <span class="text-body-sm">Promo (GlamFit20)</span>
+              <span class="text-body-sm">-{{ promoDiscount | currency:'USD':'symbol':'1.0-0' }}</span>
+            </div>
+          }
+
+          <div class="cart-page__summary-row">
+            <span class="text-body-md">Shipping</span>
+            <span class="text-body-md">
+              {{ cart.shipping() === 0 ? 'Free' : (cart.shipping() | currency:'USD':'symbol':'1.0-0') }}
+            </span>
+          </div>
+        </div>
+
+        <hr class="divider cart-page__divider" />
+
+        <div class="cart-page__total">
+          <span class="text-headline-md">Total</span>
+          <span class="text-headline-md">{{ finalTotal | currency:'USD':'symbol':'1.0-0' }}</span>
+        </div>
+
+        <!-- Promo Code -->
+        <div class="cart-page__promo">
+          <p class="text-label-lg cart-page__promo-label">Promo Code</p>
+          <div class="cart-page__promo-row">
+            <input
+              type="text"
+              placeholder="Enter code"
+              [(ngModel)]="promoCode"
+              class="input cart-page__promo-input"
+            />
+            <button class="btn btn-outlined cart-page__promo-btn" (click)="applyPromo()">Apply</button>
+          </div>
+          @if (promoError) {
+            <p class="cart-page__promo-error text-body-sm">{{ promoError }}</p>
+          }
+          @if (promoApplied) {
+            <p class="cart-page__promo-success text-body-sm">
+              <span class="material-symbols-outlined">check_circle</span> Promo applied!
+            </p>
+          }
+        </div>
+
+        <a routerLink="/checkout" class="btn btn-primary cart-page__checkout-btn">
+          Proceed to Checkout
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+
+        <!-- Trust -->
+        <div class="cart-page__trust">
+          <div class="cart-page__trust-item text-body-sm">
+            <span class="material-symbols-outlined">lock</span> Secure checkout
+          </div>
+          <div class="cart-page__trust-item text-body-sm">
+            <span class="material-symbols-outlined">verified</span> Authenticity guaranteed
+          </div>
+        </div>
+      </aside>
+    </div>
+
+  } @else {
+    <!-- Empty Cart -->
+    <div class="cart-empty">
+      <span class="material-symbols-outlined cart-empty__icon">shopping_bag</span>
+      <h2 class="text-headline-lg">Your bag is empty</h2>
+      <p class="text-body-lg cart-empty__sub">Discover our curated collection of premium pieces.</p>
+      <a routerLink="/products" class="btn btn-primary">Explore Collection</a>
+    </div>
+  }
+</div>

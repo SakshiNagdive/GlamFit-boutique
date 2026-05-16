@@ -1,0 +1,113 @@
+<!-- Hero -->
+<section class="contact-hero">
+  <div class="container contact-hero__content">
+    <span class="text-label-lg contact-hero__eyebrow">Get in Touch</span>
+    <h1 class="text-display-lg contact-hero__title">We'd love to hear from you</h1>
+    <p class="text-body-lg contact-hero__sub">
+      Whether you have a question about a product, need styling advice, or simply want to say hello — our team is here for you.
+    </p>
+  </div>
+</section>
+
+<div class="contact-body container">
+
+  <!-- Info Cards -->
+  <div class="contact-info">
+    @for (info of contactInfo; track info.title) {
+      <div class="contact-info-card">
+        <span class="material-symbols-outlined contact-info-card__icon">{{ info.icon }}</span>
+        <h3 class="contact-info-card__title text-label-lg">{{ info.title }}</h3>
+        @for (line of info.lines; track line) {
+          <p class="contact-info-card__line text-body-sm">{{ line }}</p>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Form + Map -->
+  <div class="contact-main">
+
+    <!-- Form -->
+    <div class="contact-form-col">
+      <h2 class="text-headline-lg contact-form-col__title">Send Us a Message</h2>
+
+      @if (submitted()) {
+        <div class="contact-success">
+          <span class="material-symbols-outlined contact-success__icon">check_circle</span>
+          <h3 class="text-headline-md">Message Sent!</h3>
+          <p class="text-body-md">Thank you for reaching out. We'll get back to you within 24 hours.</p>
+          <button class="btn btn-outlined" (click)="reset()">Send Another Message</button>
+        </div>
+      } @else {
+        <form class="contact-form" (ngSubmit)="onSubmit()">
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label class="form-label text-label-sm">Your Name *</label>
+              <input type="text" class="input" [(ngModel)]="form.name" name="name" placeholder="Sophia Laurent" required />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">Email Address *</label>
+              <input type="email" class="input" [(ngModel)]="form.email" name="email" placeholder="sophia@email.com" required />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label text-label-sm">Subject</label>
+            <select class="input" [(ngModel)]="form.subject" name="subject">
+              <option value="">Select a subject</option>
+              @for (subject of subjects; track subject) {
+                <option [value]="subject">{{ subject }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label text-label-sm">Message *</label>
+            <textarea
+              class="input contact-form__textarea"
+              [(ngModel)]="form.message"
+              name="message"
+              placeholder="Tell us how we can help…"
+              rows="5"
+              required
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary contact-form__submit"
+            [disabled]="sending()"
+          >
+            @if (sending()) {
+              <span class="contact-spinner"></span> Sending…
+            } @else {
+              <span class="material-symbols-outlined">send</span> Send Message
+            }
+          </button>
+        </form>
+      }
+    </div>
+
+    <!-- FAQ -->
+    <div class="contact-faq">
+      <h2 class="text-headline-lg contact-faq__title">Frequently Asked</h2>
+      <div class="contact-faq__list">
+        @for (faq of [
+          { q: 'What is your return policy?', a: 'We accept returns within 30 days of delivery for unworn, unwashed items with original tags attached. Return shipping is complimentary for all orders.' },
+          { q: 'How long does shipping take?', a: 'Standard shipping takes 5–7 business days. Express (2–3 days) and overnight options are available at checkout. All orders over $250 qualify for free standard shipping.' },
+          { q: 'Do you offer personal styling?', a: 'Yes! Our concierge team offers complimentary virtual styling sessions for orders over $500. Contact us to book your appointment.' },
+          { q: 'Are the products authentic?', a: 'Absolutely. Every piece in our collection is sourced directly from designers and certified suppliers. We guarantee 100% authenticity on every item.' }
+        ]; track faq.q) {
+          <details class="faq-item">
+            <summary class="faq-item__question text-body-md">
+              {{ faq.q }}
+              <span class="material-symbols-outlined faq-item__icon">expand_more</span>
+            </summary>
+            <p class="faq-item__answer text-body-md">{{ faq.a }}</p>
+          </details>
+        }
+      </div>
+    </div>
+
+  </div>
+</div>

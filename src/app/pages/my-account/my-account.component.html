@@ -1,0 +1,178 @@
+<div class="account container">
+
+  <!-- Header -->
+  <div class="account__header">
+    <div class="account__avatar">SL</div>
+    <div>
+      <h1 class="text-headline-lg">Hello, {{ profile.firstName }}</h1>
+      <p class="text-body-md account__email">{{ profile.email }}</p>
+    </div>
+    <button class="btn btn-outlined account__logout" (click)="logout()">
+      <span class="material-symbols-outlined">logout</span> Sign Out
+    </button>
+  </div>
+
+  <div class="account__body">
+
+    <!-- Sidebar Nav -->
+    <nav class="account__nav">
+      @for (tab of [
+        { key: 'orders', icon: 'receipt_long', label: 'My Orders' },
+        { key: 'wishlist', icon: 'favorite', label: 'Wishlist' },
+        { key: 'profile', icon: 'person', label: 'Profile' },
+        { key: 'addresses', icon: 'location_on', label: 'Addresses' }
+      ]; track tab.key) {
+        <button
+          class="account__nav-item"
+          [class.account__nav-item--active]="activeTab() === tab.key"
+          (click)="activeTab.set($any(tab.key))"
+        >
+          <span class="material-symbols-outlined">{{ tab.icon }}</span>
+          {{ tab.label }}
+        </button>
+      }
+    </nav>
+
+    <!-- Content -->
+    <div class="account__content">
+
+      <!-- Orders -->
+      @if (activeTab() === 'orders') {
+        <section>
+          <h2 class="account__section-title text-headline-md">Order History</h2>
+          @for (order of orders; track order.id) {
+            <div class="order-card">
+              <div class="order-card__header">
+                <div>
+                  <p class="text-label-lg order-card__id">Order #{{ order.id }}</p>
+                  <p class="text-body-sm order-card__date">{{ order.date | date:'MMMM d, y' }}</p>
+                </div>
+                <div class="order-card__status-price">
+                  <span
+                    class="order-card__status chip"
+                    [style.background-color]="statusColors[order.status] + '22'"
+                    [style.color]="statusColors[order.status]"
+                  >{{ order.status | titlecase }}</span>
+                  <span class="text-headline-md order-card__total">{{ order.total | currency:'USD':'symbol':'1.0-0' }}</span>
+                </div>
+              </div>
+              <div class="order-card__items">
+                @for (item of order.items; track item.name) {
+                  <div class="order-item">
+                    <img [src]="item.image" [alt]="item.name" class="order-item__img" />
+                    <div class="order-item__info">
+                      <p class="text-body-md order-item__name">{{ item.name }}</p>
+                      <p class="text-body-sm order-item__meta">{{ item.color }} · Size {{ item.size }}</p>
+                    </div>
+                    <span class="order-item__price">{{ item.price | currency:'USD':'symbol':'1.0-0' }}</span>
+                  </div>
+                }
+              </div>
+              <div class="order-card__footer">
+                <button class="btn btn-outlined order-card__btn">Track Order</button>
+                <button class="btn btn-tonal order-card__btn">Return Item</button>
+              </div>
+            </div>
+          }
+        </section>
+      }
+
+      <!-- Wishlist -->
+      @if (activeTab() === 'wishlist') {
+        <section>
+          <h2 class="account__section-title text-headline-md">My Wishlist</h2>
+          @if (wishlistItems.length > 0) {
+            <div class="wishlist-grid">
+              @for (item of wishlistItems; track item.id) {
+                <div class="wishlist-card card">
+                  <a [routerLink]="['/products', item.id]" class="wishlist-card__img-wrap">
+                    <img [src]="item.image" [alt]="item.name" />
+                  </a>
+                  <div class="wishlist-card__body">
+                    <p class="wishlist-card__name text-body-md">{{ item.name }}</p>
+                    <p class="wishlist-card__price">{{ item.price | currency:'USD':'symbol':'1.0-0' }}</p>
+                    <a [routerLink]="['/products', item.id]" class="btn btn-primary wishlist-card__btn">View Product</a>
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="account__empty">
+              <span class="material-symbols-outlined">favorite_border</span>
+              <p class="text-body-lg">Your wishlist is empty</p>
+              <a routerLink="/products" class="btn btn-primary">Explore Collection</a>
+            </div>
+          }
+        </section>
+      }
+
+      <!-- Profile -->
+      @if (activeTab() === 'profile') {
+        <section>
+          <h2 class="account__section-title text-headline-md">Personal Information</h2>
+          <div class="profile-form">
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label class="form-label text-label-sm">First Name</label>
+                <input type="text" class="input" [(ngModel)]="profile.firstName" />
+              </div>
+              <div class="form-field">
+                <label class="form-label text-label-sm">Last Name</label>
+                <input type="text" class="input" [(ngModel)]="profile.lastName" />
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">Email Address</label>
+              <input type="email" class="input" [(ngModel)]="profile.email" />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">Phone</label>
+              <input type="tel" class="input" [(ngModel)]="profile.phone" />
+            </div>
+            <div class="profile-form__section-title text-label-lg">Change Password</div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">Current Password</label>
+              <input type="password" class="input" placeholder="••••••••" />
+            </div>
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label class="form-label text-label-sm">New Password</label>
+                <input type="password" class="input" placeholder="••••••••" />
+              </div>
+              <div class="form-field">
+                <label class="form-label text-label-sm">Confirm New</label>
+                <input type="password" class="input" placeholder="••••••••" />
+              </div>
+            </div>
+            <button class="btn btn-primary profile-form__save" (click)="saveProfile()">Save Changes</button>
+          </div>
+        </section>
+      }
+
+      <!-- Addresses -->
+      @if (activeTab() === 'addresses') {
+        <section>
+          <h2 class="account__section-title text-headline-md">Saved Addresses</h2>
+          <div class="addresses-grid">
+            <div class="address-card">
+              <div class="address-card__badge chip chip-primary">Default</div>
+              <p class="address-card__name text-body-md">Sophia Laurent</p>
+              <p class="address-card__detail text-body-sm">123 Avenue Montaigne</p>
+              <p class="address-card__detail text-body-sm">New York, NY 10001</p>
+              <p class="address-card__detail text-body-sm">United States</p>
+              <div class="address-card__actions">
+                <button class="btn btn-outlined address-card__btn">Edit</button>
+                <button class="btn btn-outlined address-card__btn">Remove</button>
+              </div>
+            </div>
+            <button class="address-card address-card--add">
+              <span class="material-symbols-outlined">add_circle</span>
+              <span class="text-label-lg">Add New Address</span>
+            </button>
+          </div>
+        </section>
+      }
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+<!-- ══ HERO ═══════════════════════════════════════════════════ -->
+<section class="hero">
+  <img
+    src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&auto=format&fit=crop"
+    alt="Summer collection hero"
+    class="hero__image"
+  />
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <span class="hero__eyebrow text-label-lg">The New Season</span>
+    <h1 class="hero__heading text-display-lg">
+      Dressed in<br />
+      <em>Quiet Luxury</em>
+    </h1>
+    <p class="hero__sub text-body-lg">
+      Curated pieces for the woman who moves through the world with intention.
+    </p>
+    <div class="hero__actions">
+      <a routerLink="/products" class="btn btn-primary hero__btn">
+        Explore Collection
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+      <a routerLink="/about" class="btn btn-outlined hero__btn hero__btn--ghost">
+        Our Story
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRUST FEATURES ════════════════════════════════════════ -->
+<section class="features container">
+  @for (f of features; track f.title) {
+    <div class="feature-item">
+      <span class="material-symbols-outlined feature-item__icon">{{ f.icon }}</span>
+      <h4 class="feature-item__title text-label-lg">{{ f.title }}</h4>
+      <p class="feature-item__desc text-body-sm">{{ f.desc }}</p>
+    </div>
+  }
+</section>
+
+<!-- ══ CATEGORIES ════════════════════════════════════════════ -->
+<section class="categories-section container">
+  <header class="section-header">
+    <h2 class="section-header__title text-display-md">Shop by Category</h2>
+    <a routerLink="/products" class="section-header__link text-label-lg">
+      View All <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </header>
+
+  <div class="categories-grid">
+    @for (cat of categories; track cat.name) {
+      <a [routerLink]="['/products']" [queryParams]="{ category: cat.name }" class="category-card">
+        <img [src]="cat.image" [alt]="cat.name" class="category-card__image" loading="lazy" />
+        <div class="category-card__overlay">
+          <h3 class="category-card__name text-headline-md">{{ cat.name }}</h3>
+          <p class="category-card__count text-body-sm">{{ cat.count }} pieces</p>
+        </div>
+      </a>
+    }
+  </div>
+</section>
+
+<!-- ══ FEATURED PRODUCTS ══════════════════════════════════════ -->
+<section class="products-section container">
+  <header class="section-header">
+    <h2 class="section-header__title text-display-md">Featured Pieces</h2>
+    <a routerLink="/products" class="section-header__link text-label-lg">
+      See All <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </header>
+
+  <div class="products-grid">
+    @for (product of featuredProducts; track product.id) {
+      <app-product-card [product]="product" />
+    }
+  </div>
+</section>
+
+<!-- ══ EDITORIAL BANNER ═══════════════════════════════════════ -->
+<section class="editorial container">
+  <div class="editorial__image-col">
+    <img
+      src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800&auto=format&fit=crop"
+      alt="Editorial fashion"
+      class="editorial__image"
+    />
+  </div>
+  <div class="editorial__content">
+    <span class="editorial__eyebrow text-label-lg">The Edit</span>
+    <h2 class="editorial__title text-display-md">Effortless<br /><em>All Season</em></h2>
+    <p class="editorial__body text-body-lg">
+      Our curators have assembled the season's most versatile pieces. Each item selected for its ability to transition seamlessly from morning to evening, from weekday to weekend.
+    </p>
+    <a routerLink="/products" class="btn btn-primary">Discover the Edit</a>
+  </div>
+</section>
+
+<!-- ══ NEW ARRIVALS ═══════════════════════════════════════════ -->
+<section class="products-section container">
+  <header class="section-header">
+    <h2 class="section-header__title text-display-md">New Arrivals</h2>
+    <a routerLink="/products" class="section-header__link text-label-lg">
+      All New <span class="material-symbols-outlined">arrow_forward</span>
+    </a>
+  </header>
+
+  <div class="products-grid">
+    @for (product of newArrivals; track product.id) {
+      <app-product-card [product]="product" />
+    }
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ═════════════════════════════════════════════ -->
+<section class="newsletter">
+  <div class="newsletter__inner container">
+    <h2 class="newsletter__title text-display-md">Join the Inner Circle</h2>
+    <p class="newsletter__sub text-body-lg">
+      Be the first to know about new collections, exclusive events, and styling inspiration.
+    </p>
+    <div class="newsletter__form">
+      <input type="email" placeholder="Your email address" class="input newsletter__input" />
+      <button class="btn btn-primary">Subscribe</button>
+    </div>
+    <p class="newsletter__disclaimer text-body-sm">
+      By subscribing you agree to receive our newsletter. Unsubscribe at any time.
+    </p>
+  </div>
+</section>

@@ -1,0 +1,81 @@
+<article class="product-card card">
+  <a [routerLink]="['/products', product().id]" class="product-card__image-wrap">
+    <!-- Image -->
+    <img
+      [src]="product().imageUrl"
+      [alt]="product().name"
+      class="product-card__image"
+      loading="lazy"
+    />
+
+    <!-- Badges -->
+    <div class="product-card__badges">
+      @if (product().isNew) {
+        <span class="product-card__badge product-card__badge--new">New</span>
+      }
+      @if (product().isSale && product().originalPrice) {
+        <span class="product-card__badge product-card__badge--sale">-{{ discountPercent }}%</span>
+      }
+    </div>
+
+    <!-- Wishlist -->
+    <button
+      class="product-card__wishlist"
+      [class.product-card__wishlist--active]="isWishlisted()"
+      (click)="toggleWishlist($event)"
+      [attr.aria-label]="isWishlisted() ? 'Remove from wishlist' : 'Add to wishlist'"
+    >
+      <span class="material-symbols-outlined" [style.font-variation-settings]="isWishlisted() ? '\'FILL\' 1' : '\'FILL\' 0'">
+        favorite
+      </span>
+    </button>
+
+    <!-- Quick Add Overlay -->
+    <div class="product-card__overlay">
+      <button class="product-card__quick-add btn btn-primary" (click)="onQuickAdd($event)">
+        Quick Add
+      </button>
+    </div>
+  </a>
+
+  <!-- Card Body -->
+  <div class="product-card__body">
+    <p class="product-card__category text-label-sm">{{ product().category }}</p>
+    <h3 class="product-card__name">
+      <a [routerLink]="['/products', product().id]">{{ product().name }}</a>
+    </h3>
+
+    <!-- Rating -->
+    <div class="product-card__rating">
+      <div class="product-card__stars" [attr.aria-label]="product().rating + ' out of 5 stars'">
+        @for (star of stars; track star) {
+          <span
+            class="material-symbols-outlined product-card__star"
+            [class.product-card__star--filled]="star <= Math.round(product().rating)"
+          >star</span>
+        }
+      </div> 
+      <span class="product-card__review-count text-body-sm">({{ product().reviewCount }})</span>
+    </div>
+
+    <!-- Price -->
+    <div class="product-card__price-row">
+      <span class="product-card__price">{{ product().price | currency:'USD':'symbol':'1.0-0' }}</span>
+      @if (product().originalPrice) {
+        <span class="product-card__original-price">{{ product().originalPrice | currency:'USD':'symbol':'1.0-0' }}</span>
+      }
+    </div>
+
+    <!-- Colors -->
+    <div class="product-card__colors">
+      @for (color of product().colors; track color.name) {
+        <span
+          class="product-card__color-dot"
+          [style.background-color]="color.hex"
+          [style.border]="color.name === 'Cream' ? '1px solid #e2e2e2' : 'none'"
+          [title]="color.name"
+        ></span>
+      }
+    </div>
+  </div>
+</article>

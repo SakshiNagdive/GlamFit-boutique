@@ -1,0 +1,82 @@
+<footer class="footer">
+  <div class="footer__top container">
+
+    <!-- Brand Column -->
+    <div class="footer__brand">
+      <a class="footer__logo" routerLink="/">GlamFit BOUTIQUE</a>
+      <p class="footer__tagline">
+        Curated elegance for the modern woman. Every piece chosen with intention, every detail crafted with care.
+      </p>
+      <div class="footer__socials">
+        <a href="#" class="footer__social-btn" aria-label="Instagram">
+          <span class="material-symbols-outlined">photo_camera</span>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Pinterest">
+          <span class="material-symbols-outlined">interests</span>
+        </a>
+        <a href="#" class="footer__social-btn" aria-label="Facebook">
+          <span class="material-symbols-outlined">share</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Shop Links -->
+    <div class="footer__col">
+      <h4 class="footer__col-title">Shop</h4>
+      <ul class="footer__col-links">
+        @for (link of shopLinks; track link.label) {
+          <li><a [routerLink]="link.path" class="footer__link">{{ link.label }}</a></li>
+        }
+      </ul>
+    </div>
+
+    <!-- Help Links -->
+    <div class="footer__col">
+      <h4 class="footer__col-title">Help</h4>
+      <ul class="footer__col-links">
+        @for (link of helpLinks; track link.label) {
+          <li><a [routerLink]="link.path" class="footer__link">{{ link.label }}</a></li>
+        }
+      </ul>
+    </div>
+
+    <!-- About Links -->
+    <div class="footer__col">
+      <h4 class="footer__col-title">About</h4>
+      <ul class="footer__col-links">
+        @for (link of aboutLinks; track link.label) {
+          <li><a [routerLink]="link.path" class="footer__link">{{ link.label }}</a></li>
+        }
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer__newsletter">
+      <h4 class="footer__col-title">Stay in the Know</h4>
+      <p class="footer__newsletter-text">New collections, exclusive offers, and style inspiration—delivered to your inbox.</p>
+      <div class="footer__newsletter-form">
+        <input type="email" placeholder="Your email address" class="footer__newsletter-input" />
+        <button class="btn btn-primary footer__newsletter-btn">Subscribe</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <p class="footer__copyright">© {{ currentYear }} GlamFit Boutique. All rights reserved.</p>
+      <div class="footer__legal">
+        <a href="#" class="footer__legal-link">Privacy Policy</a>
+        <a href="#" class="footer__legal-link">Terms of Service</a>
+        <a href="#" class="footer__legal-link">Cookie Preferences</a>
+      </div>
+      <div class="footer__payments">
+        <span class="footer__payment-icon">VISA</span>
+        <span class="footer__payment-icon">MC</span>
+        <span class="footer__payment-icon">AMEX</span>
+        <span class="footer__payment-icon">PayPal</span>
+      </div>
+    </div>
+  </div>
+</footer>

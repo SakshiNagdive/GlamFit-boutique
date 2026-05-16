@@ -1,0 +1,220 @@
+/* ── Hero ───────────────────────────────────────────────────── */
+.about-hero {
+  position: relative;
+  height: clamp(400px, 60vh, 640px);
+  overflow: hidden;
+
+  &__image { width: 100%; height: 100%; object-fit: cover; }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
+    display: flex;
+    align-items: flex-end;
+    padding: 60px 0;
+  }
+
+  &__content {
+    max-width: var(--container-max);
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 var(--space-gutter);
+    color: #fff;
+
+    @media (min-width: 768px) { padding: 0 48px; }
+  }
+
+  &__eyebrow {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-family: var(--font-serif);
+    em { font-style: italic; color: var(--color-primary-container); }
+  }
+}
+
+/* ── Mission ────────────────────────────────────────────────── */
+.about-mission {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+
+  @media (min-width: 768px) { grid-template-columns: 1fr 1.6fr; gap: 64px; }
+
+  &__eyebrow {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+  }
+
+  &__title {
+    font-family: var(--font-serif);
+    color: var(--color-on-surface);
+    position: sticky;
+    top: 100px;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--color-secondary);
+  }
+}
+
+/* ── Stats ──────────────────────────────────────────────────── */
+.about-stats {
+  background: linear-gradient(135deg, var(--color-primary-container), var(--color-secondary-container));
+  padding: 64px 0;
+
+  &__inner {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    text-align: center;
+
+    @media (min-width: 640px) { grid-template-columns: repeat(4, 1fr); }
+  }
+}
+
+.about-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__value {
+    font-family: var(--font-serif);
+    color: var(--color-on-surface);
+  }
+
+  &__label {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary);
+  }
+}
+
+/* ── Values ─────────────────────────────────────────────────── */
+.about-values {
+  padding-top: 80px;
+  padding-bottom: 80px;
+
+  &__header { margin-bottom: 48px; h2 { font-family: var(--font-serif); } }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 24px;
+
+    @media (min-width: 640px) { grid-template-columns: repeat(2, 1fr); }
+    @media (min-width: 1024px) { grid-template-columns: repeat(4, 1fr); }
+  }
+}
+
+.value-card {
+  padding: 32px 24px;
+  background: var(--color-surface-container-lowest);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__icon {
+    font-size: 36px;
+    color: var(--color-primary);
+  }
+
+  &__title { font-family: var(--font-serif); color: var(--color-on-surface); }
+  &__desc { color: var(--color-secondary); }
+}
+
+/* ── Editorial ──────────────────────────────────────────────── */
+.about-editorial {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+  padding-bottom: 80px;
+
+  @media (min-width: 768px) { grid-template-columns: 1fr 1fr; }
+
+  &__image {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+
+  &__eyebrow {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+  }
+
+  &__title { font-family: var(--font-serif); margin-bottom: 20px; }
+  &__body { color: var(--color-secondary); }
+}
+
+/* ── Team ───────────────────────────────────────────────────── */
+.about-team {
+  padding-bottom: 80px;
+
+  &__header { margin-bottom: 40px; h2 { font-family: var(--font-serif); } }
+  &__sub { color: var(--color-secondary); margin-top: 12px; }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 28px;
+
+    @media (min-width: 480px) { grid-template-columns: repeat(3, 1fr); }
+  }
+}
+
+.team-card {
+  text-align: center;
+
+  &__image-wrap {
+    width: 160px;
+    height: 160px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin: 0 auto 20px;
+    border: 3px solid var(--color-primary-container);
+  }
+
+  &__image { width: 100%; height: 100%; object-fit: cover; }
+  &__name { font-family: var(--font-serif); margin-bottom: 4px; }
+  &__role { color: var(--color-secondary); }
+}
+
+/* ── CTA ────────────────────────────────────────────────────── */
+.about-cta {
+  background: var(--color-inverse-surface);
+  padding: 80px 0;
+  text-align: center;
+
+  &__title { font-family: var(--font-serif); color: #fff; margin-bottom: 16px; }
+  &__sub { color: rgba(255,255,255,0.65); margin-bottom: 36px; }
+  &__actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  &__secondary {
+    border-color: rgba(255,255,255,0.4);
+    color: #fff;
+    &:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
+  }
+}

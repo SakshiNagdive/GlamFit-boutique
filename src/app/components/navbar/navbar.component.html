@@ -1,0 +1,93 @@
+<nav class="navbar" [class.navbar--scrolled]="isScrolled()">
+  <div class="navbar__inner container">
+
+    <!-- Logo -->
+    <a class="navbar__logo" routerLink="/" (click)="closeMobileMenu()">
+      GlamFit BOUTIQUE
+    </a>
+
+    <!-- Desktop Nav Links -->
+    <ul class="navbar__links">
+      @for (link of navLinks; track link.label) {
+        <li>
+          <a
+            [routerLink]="link.path"
+            [queryParams]="link.query"
+            routerLinkActive="navbar__link--active"
+            class="navbar__link"
+          >
+            {{ link.label }}
+          </a>
+        </li>
+      }
+    </ul>
+
+    <!-- Actions -->
+    <div class="navbar__actions">
+      <!-- Search -->
+      <div class="navbar__search">
+        <span class="material-symbols-outlined">search</span>
+        <input
+          type="text"
+          placeholder="Search collection..."
+          [value]="searchQuery()"
+        />
+      </div>
+
+      <!-- Icon Buttons -->
+      <div class="navbar__icons">
+        <a routerLink="/account" class="navbar__icon-btn" aria-label="Account">
+          <span class="material-symbols-outlined">person</span>
+        </a>
+
+        <a routerLink="/account" class="navbar__icon-btn" aria-label="Wishlist">
+          <span class="material-symbols-outlined">favorite</span>
+          @if (productService.wishlistCount() > 0) {
+            <span class="navbar__badge">{{ productService.wishlistCount() }}</span>
+          }
+        </a>
+
+        <a routerLink="/cart" class="navbar__icon-btn" aria-label="Cart">
+          <span class="material-symbols-outlined">shopping_bag</span>
+          @if (cart.itemCount() > 0) {
+            <span class="navbar__badge">{{ cart.itemCount() }}</span>
+          }
+        </a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button
+        class="navbar__hamburger"
+        (click)="toggleMobileMenu()"
+        aria-label="Toggle menu"
+      >
+        <span class="material-symbols-outlined">
+          {{ isMobileMenuOpen() ? 'close' : 'menu' }}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  @if (isMobileMenuOpen()) {
+    <div class="navbar__mobile">
+      <ul class="navbar__mobile-links">
+        @for (link of navLinks; track link.label) {
+          <li>
+            <a
+              [routerLink]="link.path"
+              class="navbar__mobile-link"
+              (click)="closeMobileMenu()"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+        }
+        <li><a routerLink="/account" class="navbar__mobile-link" (click)="closeMobileMenu()">My Account</a></li>
+        <li><a routerLink="/cart" class="navbar__mobile-link" (click)="closeMobileMenu()">Cart ({{ cart.itemCount() }})</a></li>
+        <li><a routerLink="/about" class="navbar__mobile-link" (click)="closeMobileMenu()">About Us</a></li>
+        <li><a routerLink="/contact" class="navbar__mobile-link" (click)="closeMobileMenu()">Contact</a></li>
+      </ul>
+    </div>
+  }
+</nav>

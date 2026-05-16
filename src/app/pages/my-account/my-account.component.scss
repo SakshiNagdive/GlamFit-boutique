@@ -1,0 +1,260 @@
+.account {
+  padding-top: 48px;
+  padding-bottom: 80px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  &__avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-container));
+    color: #fff;
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  h1 { font-family: var(--font-serif); }
+
+  &__email { color: var(--color-secondary); }
+  &__logout { margin-left: auto; gap: 6px; }
+
+  &__body {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+
+    @media (min-width: 768px) { grid-template-columns: 220px 1fr; }
+  }
+
+  &__nav {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 4px;
+    padding-bottom: 8px;
+
+    @media (min-width: 768px) {
+      flex-direction: column;
+      overflow-x: visible;
+      padding-bottom: 0;
+      background: var(--color-surface-container-lowest);
+      border-radius: var(--radius-xl);
+      padding: 12px;
+      box-shadow: var(--shadow-card);
+    }
+  }
+
+  &__nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.15s, color 0.15s;
+
+    .material-symbols-outlined { font-size: 20px; }
+
+    &:hover {
+      background: var(--color-surface-container-low);
+      color: var(--color-primary);
+    }
+
+    &--active {
+      background: rgba(249, 168, 212, 0.15);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+  }
+
+  &__content { min-width: 0; }
+  &__section-title { font-family: var(--font-serif); margin-bottom: 24px; }
+
+  &__empty {
+    text-align: center;
+    padding: 60px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    color: var(--color-secondary);
+
+    .material-symbols-outlined { font-size: 56px; color: var(--color-outline-variant); }
+  }
+}
+
+/* ── Orders ─────────────────────────────────────────────────── */
+.order-card {
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px 24px;
+    background: var(--color-surface-container-low);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  &__id { text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-on-surface); }
+  &__date { color: var(--color-secondary); margin-top: 4px; }
+
+  &__status-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+
+  &__total { font-family: var(--font-serif); }
+
+  &__items { padding: 0 24px; }
+
+  &__footer {
+    display: flex;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--color-outline-variant);
+    background: var(--color-surface-container-lowest);
+  }
+
+  &__btn { font-size: 13px; padding: 8px 18px; }
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-outline-variant);
+
+  &:last-child { border-bottom: none; }
+
+  &__img {
+    width: 64px;
+    height: 80px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__info { flex: 1; }
+  &__name { font-weight: 500; }
+  &__meta { color: var(--color-secondary); }
+  &__price { font-weight: 600; white-space: nowrap; }
+}
+
+/* ── Wishlist ────────────────────────────────────────────────── */
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+
+  @media (min-width: 640px) { grid-template-columns: repeat(3, 1fr); }
+}
+
+.wishlist-card {
+  &__img-wrap {
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+
+    img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    &:hover img { transform: scale(1.04); }
+  }
+
+  &__body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__name { font-weight: 500; font-size: 14px; }
+  &__price { font-size: 15px; font-weight: 600; }
+  &__btn { font-size: 12px; padding: 8px 12px; }
+}
+
+/* ── Profile Form ────────────────────────────────────────────── */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 560px;
+
+  &__section-title {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-on-surface);
+    padding-top: 8px;
+    border-top: 1px solid var(--color-outline-variant);
+  }
+
+  &__save { align-self: flex-start; }
+}
+
+/* ── Addresses ───────────────────────────────────────────────── */
+.addresses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.address-card {
+  border: 1.5px solid var(--color-outline-variant);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__badge { margin-bottom: 8px; align-self: flex-start; }
+  &__name { font-weight: 600; color: var(--color-on-surface); }
+  &__detail { color: var(--color-secondary); }
+  &__actions { display: flex; gap: 8px; margin-top: 12px; }
+  &__btn { font-size: 12px; padding: 6px 14px; }
+
+  &--add {
+    border-style: dashed;
+    border-color: var(--color-primary);
+    background: transparent;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    min-height: 160px;
+    color: var(--color-primary);
+    transition: background-color 0.2s;
+    font-family: var(--font-sans);
+    gap: 10px;
+
+    .material-symbols-outlined { font-size: 32px; }
+    &:hover { background: rgba(249, 168, 212, 0.08); }
+  }
+}
+
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-label { text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-secondary); font-size: 11px; }

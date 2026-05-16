@@ -1,0 +1,131 @@
+<div class="listing container">
+
+  <!-- Page Header -->
+  <header class="listing__header">
+    <h1 class="text-display-md listing__title">Summer Collection</h1>
+    <p class="text-body-lg listing__subtitle">
+      Discover an exquisite selection of high-end essentials, thoughtfully curated for the modern minimalist.
+    </p>
+  </header>
+
+  <div class="listing__body">
+
+    <!-- ── Filters Sidebar ────────────────────────── -->
+    <aside class="listing__sidebar" [class.listing__sidebar--open]="isFilterOpen()">
+      <div class="listing__sidebar-header">
+        <h2 class="text-label-lg">Filters</h2>
+        <button class="listing__clear-btn" (click)="clearFilters()">Clear All</button>
+      </div>
+
+      <!-- Category -->
+      <div class="filter-group">
+        <h3 class="filter-group__title text-label-lg">Category</h3>
+        <ul class="filter-group__list">
+          @for (cat of categories; track cat) {
+            <li class="filter-group__item">
+              <label class="filter-checkbox">
+                <input
+                  type="checkbox"
+                  [checked]="isCategorySelected(cat)"
+                  (change)="toggleCategory(cat)"
+                  class="filter-checkbox__input"
+                />
+                <span class="filter-checkbox__label">{{ cat }}</span>
+              </label>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Size -->
+      <div class="filter-group">
+        <h3 class="filter-group__title text-label-lg">Size</h3>
+        <div class="filter-sizes">
+          @for (size of sizes; track size) {
+            <button
+              class="filter-size-btn"
+              [class.filter-size-btn--active]="isSizeSelected(size)"
+              (click)="toggleSize(size)"
+            >{{ size }}</button>
+          }
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="filter-group">
+        <h3 class="filter-group__title text-label-lg">Price</h3>
+        <input
+          type="range"
+          min="0"
+          max="2000"
+          step="50"
+          [value]="maxPrice()"
+          (input)="onPriceChange(+$any($event.target).value)"
+          class="filter-range"
+        />
+        <div class="filter-range__labels">
+          <span class="text-body-sm">$0</span>
+          <span class="text-body-sm">${{ maxPrice() }}</span>
+        </div>
+      </div>
+
+      <!-- Color -->
+      <div class="filter-group">
+        <h3 class="filter-group__title text-label-lg">Color</h3>
+        <div class="filter-colors">
+          @for (color of colors; track color.name) {
+            <button
+              class="filter-color-dot"
+              [class.filter-color-dot--active]="isColorSelected(color.name)"
+              [style.background-color]="color.hex"
+              [style.border]="color.name === 'Cream' ? '1px solid #e2e2e2' : 'none'"
+              [title]="color.name"
+              (click)="toggleColor(color.name)"
+            ></button>
+          }
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── Product Grid ──────────────────────────── -->
+    <div class="listing__main">
+
+      <!-- Toolbar -->
+      <div class="listing__toolbar">
+        <!-- Mobile filter toggle -->
+        <button class="listing__filter-toggle" (click)="toggleFilterPanel()">
+          <span class="material-symbols-outlined">tune</span>
+          Filters
+        </button>
+
+        <span class="listing__count text-body-sm">Showing {{ products().length }} products</span>
+
+        <!-- Sort -->
+        <div class="listing__sort">
+          <span class="material-symbols-outlined listing__sort-icon">sort</span>
+          <select class="listing__sort-select" (change)="onSortChange($any($event.target).value)">
+            @for (opt of sortOptions; track opt.value) {
+              <option [value]="opt.value">{{ opt.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      @if (products().length > 0) {
+        <div class="listing__grid">
+          @for (product of products(); track product.id) {
+            <app-product-card [product]="product" />
+          }
+        </div>
+      } @else {
+        <div class="listing__empty">
+          <span class="material-symbols-outlined listing__empty-icon">search_off</span>
+          <h3 class="text-headline-md">No products found</h3>
+          <p class="text-body-md">Try adjusting your filters to find what you're looking for.</p>
+          <button class="btn btn-outlined" (click)="clearFilters()">Clear Filters</button>
+        </div>
+      }
+    </div>
+  </div>
+</div>

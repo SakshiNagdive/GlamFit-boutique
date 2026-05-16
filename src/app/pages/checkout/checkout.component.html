@@ -1,0 +1,301 @@
+<!-- Order Confirmation -->
+@if (orderPlaced()) {
+  <div class="checkout-success container">
+    <div class="checkout-success__card">
+      <div class="checkout-success__icon">
+        <span class="material-symbols-outlined">check_circle</span>
+      </div>
+
+      <h1 class="text-display-md checkout-success__title">Order Confirmed!</h1>
+
+      <p class="text-body-lg checkout-success__sub">
+        Thank you for your purchase. We've sent a confirmation to
+        <strong>{{ shipping.email }}</strong>.
+        Your order will be carefully packaged and dispatched within 1–2 business days.
+      </p>
+
+      <!-- ✅ FIXED HERE -->
+      <p class="checkout-success__order-id text-label-lg">
+        Order #LB-{{ orderId }}
+      </p>
+
+      <div class="checkout-success__actions">
+        <a routerLink="/account" class="btn btn-primary">Track My Order</a>
+        <a routerLink="/products" class="btn btn-outlined">Continue Shopping</a>
+      </div>
+    </div>
+  </div>
+
+} @else {
+<div class="checkout container">
+
+  <!-- Breadcrumb Steps -->
+  <div class="checkout__steps">
+    @for (s of steps; track s.key; let i = $index) {
+      <div
+        class="checkout__step"
+        [class.checkout__step--active]="step() === s.key"
+        [class.checkout__step--done]="currentStepIndex > i"
+      >
+        <div class="checkout__step-circle">
+          @if (currentStepIndex > i) {
+            <span class="material-symbols-outlined">check</span>
+          } @else {
+            <span>{{ i + 1 }}</span>
+          }
+        </div>
+        <span class="checkout__step-label text-label-sm">{{ s.label }}</span>
+      </div>
+      @if (i < steps.length - 1) {
+        <div class="checkout__step-line" [class.checkout__step-line--done]="currentStepIndex > i"></div>
+      }
+    }
+  </div>
+
+  <div class="checkout__body">
+
+    <!-- ── Forms ─────────────────────────────────── -->
+    <div class="checkout__form-col">
+
+      <!-- Shipping -->
+      @if (step() === 'shipping') {
+        <section class="checkout__section">
+          <h2 class="checkout__section-title text-headline-lg">Shipping Information</h2>
+
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label text-label-sm">First Name</label>
+              <input type="text" class="input" [(ngModel)]="shipping.firstName" placeholder="Sophia" />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">Last Name</label>
+              <input type="text" class="input" [(ngModel)]="shipping.lastName" placeholder="Laurent" />
+            </div>
+            <div class="form-field form-field--full">
+              <label class="form-label text-label-sm">Email Address</label>
+              <input type="email" class="input" [(ngModel)]="shipping.email" placeholder="sophia@email.com" />
+            </div>
+            <div class="form-field form-field--full">
+              <label class="form-label text-label-sm">Phone</label>
+              <input type="tel" class="input" [(ngModel)]="shipping.phone" placeholder="+1 (555) 000-0000" />
+            </div>
+            <div class="form-field form-field--full">
+              <label class="form-label text-label-sm">Address Line 1</label>
+              <input type="text" class="input" [(ngModel)]="shipping.address1" placeholder="123 Avenue Montaigne" />
+            </div>
+            <div class="form-field form-field--full">
+              <label class="form-label text-label-sm">Address Line 2 (optional)</label>
+              <input type="text" class="input" [(ngModel)]="shipping.address2" placeholder="Apt, Suite, etc." />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">City</label>
+              <input type="text" class="input" [(ngModel)]="shipping.city" placeholder="New York" />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">State</label>
+              <input type="text" class="input" [(ngModel)]="shipping.state" placeholder="NY" />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">ZIP Code</label>
+              <input type="text" class="input" [(ngModel)]="shipping.zip" placeholder="10001" />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">Country</label>
+              <select class="input" [(ngModel)]="shipping.country">
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>France</option>
+                <option>Germany</option>
+                <option>Australia</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Shipping Method -->
+          <div class="checkout__shipping-methods">
+            <h3 class="text-label-lg checkout__methods-title">Shipping Method</h3>
+            <label class="shipping-method">
+              <input type="radio" name="shipping" checked />
+              <div class="shipping-method__body">
+                <span class="shipping-method__name text-body-md">Standard Shipping</span>
+                <span class="shipping-method__eta text-body-sm">5–7 business days</span>
+              </div>
+              <span class="shipping-method__price">{{ cart.subtotal() >= 250 ? 'Free' : '$15' }}</span>
+            </label>
+            <label class="shipping-method">
+              <input type="radio" name="shipping" />
+              <div class="shipping-method__body">
+                <span class="shipping-method__name text-body-md">Express Shipping</span>
+                <span class="shipping-method__eta text-body-sm">2–3 business days</span>
+              </div>
+              <span class="shipping-method__price">$25</span>
+            </label>
+            <label class="shipping-method">
+              <input type="radio" name="shipping" />
+              <div class="shipping-method__body">
+                <span class="shipping-method__name text-body-md">Overnight</span>
+                <span class="shipping-method__eta text-body-sm">Next business day</span>
+              </div>
+              <span class="shipping-method__price">$45</span>
+            </label>
+          </div>
+
+          <button class="btn btn-primary checkout__next" (click)="next()">
+            Continue to Payment
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </section>
+      }
+
+      <!-- Payment -->
+      @if (step() === 'payment') {
+        <section class="checkout__section">
+          <h2 class="checkout__section-title text-headline-lg">Payment Details</h2>
+
+          <div class="form-grid">
+            <div class="form-field form-field--full">
+              <label class="form-label text-label-sm">Card Number</label>
+              <div class="input-icon-wrap">
+                <input
+                  type="text"
+                  class="input"
+                  [(ngModel)]="payment.cardNumber"
+                  placeholder="1234 5678 9012 3456"
+                  maxlength="19"
+                />
+                <span class="material-symbols-outlined input-icon">credit_card</span>
+              </div>
+            </div>
+            <div class="form-field form-field--full">
+              <label class="form-label text-label-sm">Cardholder Name</label>
+              <input type="text" class="input" [(ngModel)]="payment.cardName" placeholder="Sophia Laurent" />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">Expiry Date</label>
+              <input type="text" class="input" [(ngModel)]="payment.expiry" placeholder="MM / YY" maxlength="7" />
+            </div>
+            <div class="form-field">
+              <label class="form-label text-label-sm">CVV</label>
+              <div class="input-icon-wrap">
+                <input type="text" class="input" [(ngModel)]="payment.cvv" placeholder="•••" maxlength="4" />
+                <span class="material-symbols-outlined input-icon">help</span>
+              </div>
+            </div>
+          </div>
+
+          <label class="checkout__save-card">
+            <input type="checkbox" [(ngModel)]="payment.saveCard" />
+            <span class="text-body-sm">Save card for future purchases</span>
+          </label>
+
+          <div class="checkout__secure-notice text-body-sm">
+            <span class="material-symbols-outlined">lock</span>
+            Your payment information is encrypted and secure.
+          </div>
+
+          <div class="checkout__nav-btns">
+            <button class="btn btn-outlined" (click)="back()">
+              <span class="material-symbols-outlined">arrow_back</span> Back
+            </button>
+            <button class="btn btn-primary" (click)="next()">
+              Review Order <span class="material-symbols-outlined">arrow_forward</span>
+            </button>
+          </div>
+        </section>
+      }
+
+      <!-- Review -->
+      @if (step() === 'review') {
+        <section class="checkout__section">
+          <h2 class="checkout__section-title text-headline-lg">Review Your Order</h2>
+
+          <!-- Shipping Summary -->
+          <div class="review-block">
+            <div class="review-block__header">
+              <h3 class="text-label-lg">Shipping To</h3>
+              <button class="review-block__edit" (click)="goTo('shipping')">Edit</button>
+            </div>
+            <p class="text-body-md">{{ shipping.firstName }} {{ shipping.lastName }}</p>
+            <p class="text-body-sm review-block__detail">{{ shipping.address1 }}{{ shipping.address2 ? ', ' + shipping.address2 : '' }}, {{ shipping.city }}, {{ shipping.state }} {{ shipping.zip }}</p>
+            <p class="text-body-sm review-block__detail">{{ shipping.email }}</p>
+          </div>
+
+          <!-- Payment Summary -->
+          <div class="review-block">
+            <div class="review-block__header">
+              <h3 class="text-label-lg">Payment</h3>
+              <button class="review-block__edit" (click)="goTo('payment')">Edit</button>
+            </div>
+            <p class="text-body-md">{{ maskedCard }}</p>
+          </div>
+
+          <!-- Items -->
+          <div class="review-items">
+            @for (item of cart.items(); track item.product.id) {
+              <div class="review-item">
+                <img [src]="item.product.imageUrl" [alt]="item.product.name" class="review-item__img" />
+                <div class="review-item__info">
+                  <p class="text-body-md review-item__name">{{ item.product.name }}</p>
+                  <p class="text-body-sm review-item__meta">{{ item.selectedColor }} · {{ item.selectedSize }} · Qty {{ item.quantity }}</p>
+                </div>
+                <span class="review-item__price">{{ item.product.price * item.quantity | currency:'USD':'symbol':'1.0-0' }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="checkout__nav-btns">
+            <button class="btn btn-outlined" (click)="back()">
+              <span class="material-symbols-outlined">arrow_back</span> Back
+            </button>
+            <button
+              class="btn btn-primary checkout__place-btn"
+              (click)="placeOrder()"
+              [disabled]="placing()"
+            >
+              @if (placing()) {
+                <span class="checkout__spinner"></span> Placing Order…
+              } @else {
+                Place Order · {{ cart.total() | currency:'USD':'symbol':'1.0-0' }}
+              }
+            </button>
+          </div>
+        </section>
+      }
+
+    </div>
+
+    <!-- ── Order Summary Sidebar ─────────────────── -->
+    <aside class="checkout__summary">
+      <h2 class="text-headline-md checkout__summary-title">Order Summary</h2>
+      <div class="checkout__summary-items">
+        @for (item of cart.items(); track item.product.id) {
+          <div class="checkout__summary-item">
+            <div class="checkout__summary-img-wrap">
+              <img [src]="item.product.imageUrl" [alt]="item.product.name" />
+              <span class="checkout__summary-qty">{{ item.quantity }}</span>
+            </div>
+            <div class="checkout__summary-info">
+              <p class="text-body-sm checkout__summary-name">{{ item.product.name }}</p>
+              <p class="text-body-sm checkout__summary-meta">{{ item.selectedSize }} · {{ item.selectedColor }}</p>
+            </div>
+            <span class="text-body-sm checkout__summary-price">{{ item.product.price * item.quantity | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+        }
+      </div>
+      <hr class="divider" />
+      <div class="checkout__totals">
+        <div class="checkout__total-row text-body-sm">
+          <span>Subtotal</span><span>{{ cart.subtotal() | currency:'USD':'symbol':'1.0-0' }}</span>
+        </div>
+        <div class="checkout__total-row text-body-sm">
+          <span>Shipping</span><span>{{ cart.shipping() === 0 ? 'Free' : (cart.shipping() | currency:'USD':'symbol':'1.0-0') }}</span>
+        </div>
+        <div class="checkout__total-row checkout__total-row--bold">
+          <span>Total</span><span>{{ cart.total() | currency:'USD':'symbol':'1.0-0' }}</span>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+}

@@ -1,0 +1,213 @@
+<div class="login-page">
+  <div class="login-page__image-col">
+    <img
+      src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&auto=format&fit=crop"
+      alt="Fashion editorial"
+    />
+    <div class="login-page__image-overlay">
+      <a routerLink="/" class="login-page__brand">GlamFit BOUTIQUE</a>
+      <blockquote class="login-page__quote">
+        "Style is a way to say who you are without having to speak."
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="login-page__form-col">
+    <div class="login-page__card">
+
+      <!-- Tabs -->
+      <div class="login-page__tabs">
+        <button
+          class="login-page__tab"
+          [class.login-page__tab--active]="activeTab() === 'login'"
+          (click)="activeTab.set('login'); error.set('')"
+        >
+          Sign In
+        </button>
+
+        <button
+          class="login-page__tab"
+          [class.login-page__tab--active]="activeTab() === 'register'"
+          (click)="activeTab.set('register'); error.set('')"
+        >
+          Create Account
+        </button>
+      </div>
+
+      <!-- Error -->
+      @if (error()) {
+        <div class="login-page__error text-body-sm">
+          <span class="material-symbols-outlined">error</span>
+          {{ error() }}
+        </div>
+      }
+
+      <!-- Login Form -->
+      @if (activeTab() === 'login') {
+        <div class="login-page__form">
+          <h1 class="login-page__title text-headline-lg">Welcome back</h1>
+          <p class="login-page__sub text-body-md">
+            Sign in to your account to continue.
+          </p>
+
+          <div class="form-field">
+            <label class="form-label text-label-sm">Email Address</label>
+            <input
+              type="email"
+              class="input"
+              [(ngModel)]="login.email"
+              placeholder="sophia@email.com"
+            />
+          </div>
+
+          <div class="form-field">
+            <div class="login-page__label-row">
+              <label class="form-label text-label-sm">Password</label>
+              <a href="#" class="login-page__forgot text-body-sm">
+                Forgot password?
+              </a>
+            </div>
+
+            <div class="input-icon-wrap">
+              <input
+                [type]="showPassword() ? 'text' : 'password'"
+                class="input"
+                [(ngModel)]="login.password"
+                placeholder="Your password"
+              />
+
+              <!-- ✅ FIXED HERE -->
+              <button
+                class="login-page__show-pw"
+                (click)="togglePassword()"
+                type="button"
+              >
+                <span class="material-symbols-outlined">
+                  {{ showPassword() ? 'visibility_off' : 'visibility' }}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <label class="login-page__remember">
+            <input type="checkbox" [(ngModel)]="login.rememberMe" />
+            <span class="text-body-sm">Remember me</span>
+          </label>
+
+          <button
+            class="btn btn-primary login-page__submit"
+            (click)="onLogin()"
+            [disabled]="auth.loading()"
+          >
+            @if (auth.loading()) {
+              <span class="checkout__spinner"></span> Signing in…
+            } @else {
+              Sign In
+            }
+          </button>
+
+          <div class="login-page__divider">
+            <span>or continue with</span>
+          </div>
+
+          <div class="login-page__socials">
+            <button class="login-page__social-btn">
+              <span class="material-symbols-outlined">language</span>
+              Google
+            </button>
+            <button class="login-page__social-btn">
+              <span class="material-symbols-outlined">facebook</span>
+              Facebook
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Register Form -->
+      @if (activeTab() === 'register') {
+        <div class="login-page__form">
+          <h1 class="login-page__title text-headline-lg">
+            Create your account
+          </h1>
+          <p class="login-page__sub text-body-md">
+            Join the GlamFit Boutique inner circle.
+          </p>
+
+          <div class="form-grid-2">
+            <div class="form-field">
+              <label class="form-label text-label-sm">First Name</label>
+              <input
+                type="text"
+                class="input"
+                [(ngModel)]="register.firstName"
+                placeholder="Sophia"
+              />
+            </div>
+
+            <div class="form-field">
+              <label class="form-label text-label-sm">Last Name</label>
+              <input
+                type="text"
+                class="input"
+                [(ngModel)]="register.lastName"
+                placeholder="Laurent"
+              />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label text-label-sm">Email Address</label>
+            <input
+              type="email"
+              class="input"
+              [(ngModel)]="register.email"
+              placeholder="sophia@email.com"
+            />
+          </div>
+
+          <div class="form-field">
+            <label class="form-label text-label-sm">Password</label>
+            <input
+              type="password"
+              class="input"
+              [(ngModel)]="register.password"
+              placeholder="At least 8 characters"
+            />
+          </div>
+
+          <div class="form-field">
+            <label class="form-label text-label-sm">Confirm Password</label>
+            <input
+              type="password"
+              class="input"
+              [(ngModel)]="register.confirmPassword"
+              placeholder="Repeat password"
+            />
+          </div>
+
+          <label class="login-page__agree">
+            <input type="checkbox" [(ngModel)]="register.agree" />
+            <span class="text-body-sm">
+              I agree to the
+              <a routerLink="/">Terms of Service</a> and
+              <a routerLink="/">Privacy Policy</a>
+            </span>
+          </label>
+
+          <button
+            class="btn btn-primary login-page__submit"
+            (click)="onRegister()"
+            [disabled]="auth.loading()"
+          >
+            @if (auth.loading()) {
+              <span class="checkout__spinner"></span> Creating account…
+            } @else {
+              Create Account
+            }
+          </button>
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

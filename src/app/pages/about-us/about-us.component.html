@@ -1,0 +1,107 @@
+<!-- Hero -->
+<section class="about-hero">
+  <img
+    src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&auto=format&fit=crop"
+    alt="About GlamFit Boutique"
+    class="about-hero__image"
+  />
+  <div class="about-hero__overlay">
+    <div class="about-hero__content">
+      <span class="about-hero__eyebrow text-label-lg">Our Story</span>
+      <h1 class="about-hero__title text-display-lg">More Than Fashion —<br /><em>A Way of Life</em></h1>
+    </div>
+  </div>
+</section>
+
+<!-- Mission -->
+<section class="about-mission container">
+  <div class="about-mission__text">
+    <span class="about-mission__eyebrow text-label-lg">Our Philosophy</span>
+    <h2 class="text-display-md about-mission__title">Curated with<br />intention</h2>
+  </div>
+  <div class="about-mission__body">
+    <p class="text-body-lg">
+      GlamFit Boutique was born from a belief that getting dressed should be a joyful act of self-expression. Founded in 2012 by Isabelle Marchand, a former Paris fashion editor, the boutique began as a small atelier in the West Village dedicated to stocking only the most beautifully made pieces from independent European designers.
+    </p>
+    <p class="text-body-lg">
+      Over a decade later, we remain fiercely independent, obsessively curated, and deeply committed to the women who wear our clothes. We don't follow trends. We follow quality, craftsmanship, and the timeless elegance that never goes out of style.
+    </p>
+    <a routerLink="/products" class="btn btn-primary">Explore the Collection</a>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="about-stats">
+  <div class="about-stats__inner container">
+    @for (stat of stats; track stat.label) {
+      <div class="about-stat">
+        <span class="about-stat__value text-display-md">{{ stat.value }}</span>
+        <span class="about-stat__label text-label-lg">{{ stat.label }}</span>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Values -->
+<section class="about-values container">
+  <header class="about-values__header">
+    <h2 class="text-display-md">What We Stand For</h2>
+  </header>
+  <div class="about-values__grid">
+    @for (v of values; track v.title) {
+      <div class="value-card">
+        <span class="material-symbols-outlined value-card__icon">{{ v.icon }}</span>
+        <h3 class="value-card__title text-headline-md">{{ v.title }}</h3>
+        <p class="value-card__desc text-body-md">{{ v.desc }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Editorial Image -->
+<section class="about-editorial container">
+  <div class="about-editorial__image">
+    <img
+      src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1000&auto=format&fit=crop"
+      alt="Our atelier"
+    />
+  </div>
+  <div class="about-editorial__content">
+    <span class="text-label-lg about-editorial__eyebrow">The Atelier</span>
+    <h2 class="text-display-md about-editorial__title">Where every piece finds its home</h2>
+    <p class="text-body-lg about-editorial__body">
+      Our buying team travels to Paris, Milan, Copenhagen, and Tokyo twice a year to handpick each piece. We meet the makers, visit the ateliers, and understand the story behind every stitch. When a piece arrives at GlamFit Boutique, it has earned its place.
+    </p>
+  </div>
+</section>
+
+<!-- Team -->
+<section class="about-team container">
+  <header class="about-team__header">
+    <h2 class="text-display-md">Meet the Team</h2>
+    <p class="text-body-lg about-team__sub">The passionate people behind your wardrobe.</p>
+  </header>
+  <div class="about-team__grid">
+    @for (member of team; track member.name) {
+      <div class="team-card">
+        <div class="team-card__image-wrap">
+          <img [src]="member.image" [alt]="member.name" class="team-card__image" />
+        </div>
+        <h3 class="team-card__name text-headline-md">{{ member.name }}</h3>
+        <p class="team-card__role text-body-sm">{{ member.role }}</p>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="about-cta">
+  <div class="about-cta__inner container">
+    <h2 class="text-display-md about-cta__title">Ready to discover your signature style?</h2>
+    <p class="text-body-lg about-cta__sub">Shop our latest collection or reach out to our personal styling team.</p>
+    <div class="about-cta__actions">
+      <a routerLink="/products" class="btn btn-primary">Shop Collection</a>
+      <a routerLink="/contact" class="btn btn-outlined about-cta__secondary">Contact Us</a>
+    </div>
+  </div>
+</section>
