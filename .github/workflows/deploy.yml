@@ -30,13 +30,13 @@ jobs:
       # ✅ FIXED BASE HREF HERE
       - name: Build Angular app
         run: |
-          npm run build -- --configuration production --base-href "/sb-frontend/"
+          npm run build -- --configuration production --base-href "/GlamFit-boutique/"
 
       # ✅ CORRECT OUTPUT PATH (matches angular.json)
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/luxe-boutique
+          path: dist/glamfit-boutique
 
   deploy:
     needs: build
